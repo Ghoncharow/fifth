@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Библиотека jQuery</title> 
+
+<style>
+    body {
+    font-family:verdana;
+    font-size:15px;
+    background-color:yellow;
+    }  
+
+    .link {color:#fff; text-decoration:none}
+    .link:hover {color:#fff; text-decoration:underline}  
+
+#elem4 {
+	width: 150px;
+	height: 150px;
+	padding: 10px;
+	border: 1px solid green;
+}
+
+#mask {
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:9000;
+    background-color:#000;
+    display:none;
+    }
+
+#boxes .window {
+    position:absolute;
+    left:0;
+    top:0px;
+    -top: 40px;
+    width:440px;
+    height:200px;
+    display:none;
+    z-index:9999;
+    padding: 20px;
+    overflow: hidden;
+    }  
+
+#boxes #dialog {
+    width:375px; 
+    height:203px;
+    padding:10px;
+    background-color:#ffffff;
+    }  
+
+.top {
+    position:absolute;
+    left:0;
+    top:0;
+    width:370px;
+    height:30px;
+    background: #0085cc;
+    padding: 8px 20px 6px 10px;
+    }
+
+.close {
+    float:right;
+    }
+
+.content {
+    padding-top: 35px;
+}
+</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {   
+    $('a[name=modal]').click(function(e) {
+    e.preventDefault();
+    var id = $(this).attr('href');
+    var maskHeight = $(document).height();
+    var maskWidth = $(window).width();
+    $('#mask').css({'width':maskWidth,'height':maskHeight});
+    $('#mask').fadeIn(1000); 
+    $('#mask').fadeTo("slow",0.8); 
+    var winH = $(window).height();
+    var winW = $(window).width();
+    $(id).css('top',  winH/2-$(id).height()/2);
+    $(id).css('left', winW/2-$(id).width()/2);
+    $(id).fadeIn(2000); 
+    });
+    $('.window .close').click(function (e) { 
+    e.preventDefault();
+    $('#mask, .window').hide();
+    }); 
+    $('#mask').click(function () {
+    $(this).hide();
+    $('.window').hide();
+    }); 
+   });  
+</script>
+
+</head>
+
+<body>
+       <h1>{header}</h1>
+       <p>{message}</p>
+
+<p> <a href="#dialog" onclick="func1(); func2(); func3();">{message1}</a> </p>
+<script>
+        function func1() {
+          console.log('Please don\'t press!');
+        }
+        function func2() {
+        var date = new Date();
+        var day = date.getDay();
+        var days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+        alert("Сегодня "+days[day]+"->"+date.getDate()+":"+date.getMonth()+":"+date.getFullYear());
+    console.log("Сегодня "+days[day]+"->"+date.getDate()+":"+date.getMonth()+":"+date.getFullYear());
+        } 
+        function func3() {
+         console.log('Now press F12!');
+        } 
+</script>
+                      
+ <p>Нажмите на клавиатуре F12 и посмотрите консоль!</p>
+
+<a href="#dialog" name="modal">Вызов нестандарного модального окна</a>
+
+<p> </p> 
+ <p> </p> 
+ 
+ <p>Страница по нажатию на клавиатуре клавиши 'V' становится фиолетовой.</p>
+<script>
+addEventListener("keydown", function(event) {
+if (event.keyCode == 86)
+document.body.style.background = "violet";
+});
+addEventListener("keyup", function(event) {
+if (event.keyCode == 86)
+document.body.style.background = "";
+});
+</script>
+
+ <p> </p> 
+ <p> </p> 
+ <p class="www">Текст абзаца №1.</p>
+ <p class="www">Текст абзаца №2.</p>
+ <p class="www">Текст абзаца №3.</p>
+ <p></p>
+ <input type="text" value="1 сек." id="test5">
+ <input type="submit" onclick="start()">
+ 
+ 
+ <p> </p> 
+
+ <!-- Само окно -->
+<div id="boxes">  
+<div id="dialog" class="window"> Текст модального окна
+<div class="top"><a href="#" class="link close">Закрыть</a></div>
+<div class="content">
+<p>  Текст в модальном окне. </p>
+<p>  Текст в модальном окне. </p>
+<p>  Текст в модальном окне. </p>
+</div>
+</div>
+</div>
+
+
+<!-- Маска, затемняющая фон -->
+<div id="mask"></div>
+
+
+<!--тут анимация дива-->
+<p></p>
+<div id="elem4">В конце жми F5.</div>
+<button id="button4">Нажми на меня</button>
+<button id="button5">Нажми на меня</button>
+<p></p>
+
+<script>
+$('#button4').click(function() {
+	$('#elem4').animate({height: '+=50', width: '+=50'}, 1000);
+});
+
+$('#button5').click(function() {
+	$('#elem4').animate({height: '-=50', width: '-=50'}, 1000);
+});
+
+function start() {
+	//По нажатию на кнопку наш таймер начнет работать:
+	window.setInterval(timer, 1000);
+    document.body.style.background = "white";
+	$('.www').each(function() {
+		console.log($(this).html());
+	});
+	
+}
+
+//Эта функция будет запускаться каждую секунду
+function timer() {
+	var elem = document.getElementById('test5');
+	elem.value = (parseInt(elem.value)+1); //parseInt преобразует строку в число
+
+if (elem.value % 6 == 2) $('.www').css({color: 'red', font: '24px Times new roman'}).html('Это новый текст');
+if (elem.value % 6 == 4) $('.www').css('color', 'blue').html('Старый текст в консоли');
+
+
+}
+
+
+</script>
+<br/>
+<p> </p>
+<p>Скачивайте пожалуйста мою книжку <a href="/some.doc">здесь!</a></p>
+
+<!-- Этот файл является статическим шаблоном для app2.js -->
+
+</body>
+</html>
